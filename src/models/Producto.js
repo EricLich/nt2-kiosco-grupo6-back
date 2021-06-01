@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const model = mongoose.model;
 
-const productoSchema = new mongoose.Schema({
+const prodSchema = new mongoose.Schema({
     nomProd:{
 		type: String,
 		required: true
@@ -9,6 +9,9 @@ const productoSchema = new mongoose.Schema({
 	desc: {
 		type:String,
 		required: true
+	},
+	categoria:{
+		type: mongoose.Schema.Types.ObjectId
 	},
 	precio: {
 		type: Number,
@@ -24,4 +27,4 @@ const productoSchema = new mongoose.Schema({
 	}
 }, {timestamps: true, versionKey: false});
 
-module.exports = model('Producto', carSchema);
+module.exports = model('Producto', prodSchema);
