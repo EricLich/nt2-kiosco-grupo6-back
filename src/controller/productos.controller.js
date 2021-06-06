@@ -8,7 +8,7 @@ prodCtrl.createProd = async (req, res) => {
     try{
         const prod = await new Producto(req.body);
         prod.save()
-            .then(ds => res.send({message: "Producto agregado"}))
+            .then(ds => res.json({message: "Producto agregado"}))
             .catch(err => console.log(err));
     }catch(err){
         console.log(err);
@@ -40,6 +40,20 @@ prodCtrl.updateProd = async (req, res) => {
         const prod = await Producto.findByIdAndUpdate(req.params.id, req.body)
                                     .then(prod => res.json({message: "Producto editado"}))
                                     .catch(err => res.json({message: "No existe el producto"}));
+    }catch(err){
+        console.log(err)
+    }
+}
+
+prodCtrl.updateStockProd = async (productos) => {
+    try{
+        for(let producto of productos){
+            let prodPStock = await Producto.findById(producto.idProd)
+            const stockReal = prodPStock.stock - producto.cant;
+            const prod = await Producto.findByIdAndUpdate(producto.idProd, {stock: stockReal})
+                                        .then(prod => console.log("Stock actualizado"))
+                                        .catch(err => console.log(err))
+        }
     }catch(err){
         console.log(err)
     }

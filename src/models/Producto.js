@@ -10,7 +10,7 @@ const prodSchema = new mongoose.Schema({
 		type:String,
 		required: true
 	},
-	categoria:{
+	categoriaId:{
 		type: mongoose.Schema.Types.ObjectId
 	},
 	precio: {

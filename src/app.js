@@ -5,6 +5,7 @@ const cors = require('cors');
 //imports de routers
 const catsRouter = require('./routes/cats.routes');
 const prodsRouter = require('./routes/prods.routes');
+const factsRouter = require('./routes/facturas.routes');
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use(express.urlencoded({extended:false}));
 //ROUTES
 app.use('/categoria', catsRouter);
 app.use('/productos', prodsRouter);
+app.use('/facturas', factsRouter);
 
 module.exports = app;
