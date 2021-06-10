@@ -68,6 +68,18 @@ factCtrl.deleteFact = async (req, res) => {
     }
 }
 
+//FUNCIOES ADICIONALES FACTURAS
+
+factCtrl.factPorCliente = async (req, res) => {
+    try{
+        const factsPcliente = await Factura.find({dni: req.params.idCli});
+        if(factsPcliente.length == 0) return res.status(301).json({message: "El cliente no tiene facturas"})
+        return res.json(factsPcliente);
+    }catch(err){
+        console.log(err)
+    }
+}
+
 
 module.exports = factCtrl;
 
