@@ -8,9 +8,8 @@ const factCtrl = {};
 
 factCtrl.createFact = async (req, res) => {
     try{
-        //calculo el total, creo una nueva factura, la guardo y actualizo el stock
-        let total = await factCtrl.calcTotalFact(req.body.productos);
-        const fact = await new Factura({...req.body, total});
+        //creo una nueva factura, la guardo y actualizo el stock
+        const fact = await new Factura(req.body);
         fact.save()
            .then(fact => {
             res.json({message: "Factura generada"})
@@ -20,15 +19,6 @@ factCtrl.createFact = async (req, res) => {
     }catch(err){
         console.log(err)
     }
-}
-
-factCtrl.calcTotalFact = async (productos) => {
-    let total = 0;
-    for(let producto of productos){
-        let prodBuscado = await Producto.findById(producto.idProd);
-        total += producto.cant * prodBuscado.precio
-    }
-    return total;
 }
 
 factCtrl.getFacts = async (req, res) => {
