@@ -6,7 +6,7 @@ const catCtrl = {};
 
 catCtrl.createCat = async (req, res) => {
     try{
-        const cat = await new Categoria(req.body);
+        const cat = await new Categoria({...req.body, active:true});
         cat.save()
            .then(cat => res.json({message: "Categoria agregada"}))
            .catch(err => console.log(err));

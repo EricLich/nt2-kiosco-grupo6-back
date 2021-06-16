@@ -8,7 +8,7 @@ const prodCtrl = {};
 
 prodCtrl.createProd = async (req, res) => {
     try{
-        const prod = await new Producto(req.body);
+        const prod = await new Producto({...req.body, active:true});
         prod.save()
             .then(ds => res.json({message: "Producto agregado"}))
             .catch(err => console.log(err));
@@ -19,7 +19,16 @@ prodCtrl.createProd = async (req, res) => {
 
 prodCtrl.getProds = async (req, res) => {
     try{
-        const prods = await Producto.find();
+        const prods = await Producto.find({active:true}).exec();
+        if(prods.length == 0) return res.status(301).json({message: "No hay productos guardados"});
+        return res.send(prods);
+    }catch(err){
+        console.log(err);
+    }
+}
+prodCtrl.getInactiveProds = async (req, res) => {
+    try{
+        const prods = await Producto.find({active:false}).exec();
         if(prods.length == 0) return res.status(301).json({message: "No hay productos guardados"});
         return res.send(prods);
     }catch(err){
@@ -29,7 +38,7 @@ prodCtrl.getProds = async (req, res) => {
 
 prodCtrl.getProd = async (req, res) => {
     try{
-        const prod = await Producto.findById(req.params.id);
+        const prod = await Producto.findById({_id:req.params.id, active:true});
         if(!prod) return res.status(301).json({message: "No se encontró el producto"});
         return res.send(prod);
     }catch(err){
@@ -61,16 +70,27 @@ prodCtrl.updateStockProd = async (productos) => {
     }
 }
 
-prodCtrl.deleteProd = async (req, res) => {
+prodCtrl.deactivateProd = async (req, res) => {
     try{
-        const prod = await Producto.findByIdAndDelete(req.params.id);
-        if(!prod) return res.status(301).json({message: "No existe el producto que quiere eliminar"})
-        return res.json({message: "Producto eliminado con éxito"})
+        //const prod = await Producto.findByIdAndDelete(req.params.id);
+        const prod = await Producto.findByIdAndUpdate(req.params.id, {active: false})
+        if(!prod) return res.status(301).json({message: "No existe el producto que quiere desactivar"})
+        return res.json({message: "Producto desactivado con éxito"})
     }catch(err){
         console.log(err)
     }
 }
 
+prodCtrl.activateProd = async (req, res) => {
+    try{
+        //const prod = await Producto.findByIdAndDelete(req.params.id);
+        const prod = await Producto.findByIdAndUpdate(req.params.id, {active: true})
+        if(!prod) return res.status(301).json({message: "No existe el producto que quiere activar"})
+        return res.json({message: "Producto activado con éxito"})
+    }catch(err){
+        console.log(err)
+    }
+}
 //METODOS EXTRA
 
 prodCtrl.getProdCat = async (req, res) => {

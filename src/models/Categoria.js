@@ -9,6 +9,10 @@ const categoriaSchema = new mongoose.Schema({
     descCat:{
         type:String,
         required:true
+    },
+    active:{
+        type: Boolean,
+        required: true
     }
 }, {timestamps: true, versionKey: false})
 

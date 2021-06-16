@@ -24,6 +24,10 @@ const prodSchema = new mongoose.Schema({
 	stock: {
 		type: Number,
 		required: true
+	},
+	active: {
+		type: Boolean,
+		required: true
 	}
 }, {timestamps: true, versionKey: false});
 
