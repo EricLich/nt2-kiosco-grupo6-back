@@ -12,7 +12,7 @@ factCtrl.createFact = async (req, res) => {
         const fact = await new Factura(req.body);
         fact.save()
            .then(fact => {
-            res.json({message: "Factura generada"})
+            console.log(fact)
            })
            .catch(err => console.log(err));
         await prodCtrl.updateStockProd(req.body.productos);
