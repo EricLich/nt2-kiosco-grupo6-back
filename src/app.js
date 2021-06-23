@@ -2,7 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const multer = require('multer');
-const path = require('path')
+const path = require('path');
+const verifyToken = require('./auth');
+
 
 const storage = multer.diskStorage({
     filename: (req, file, cb) => {
@@ -32,8 +34,8 @@ app.use(multer({
 
 //ROUTES
 app.post('/subir-imagen')
-app.use('/categoria', catsRouter);
-app.use('/productos', prodsRouter);
-app.use('/facturas', factsRouter);
+app.use('/categoria', verifyToken, catsRouter);
+app.use('/productos', verifyToken, prodsRouter);
+app.use('/facturas', verifyToken, factsRouter);
 
 module.exports = app;

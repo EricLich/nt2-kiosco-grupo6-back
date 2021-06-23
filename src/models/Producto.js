@@ -19,7 +19,7 @@ const prodSchema = new mongoose.Schema({
 	},
 	imgPath:{
 		type:String,
-		required: true
+		required: false
 	},
 	stock: {
 		type: Number,
